@@ -1,0 +1,752 @@
+<title>Mikesons Growth Roadmap</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" defer></script>
+
+<style>
+/* Layout: vertical timeline, phases stacked, items in a card grid per phase */
+:root {
+  --bg: #F7F5F0;
+  --surface: #FFFFFF;
+  --border: #E2DDD5;
+  --fg: #1A1814;
+  --fg-muted: #6B6560;
+  --accent: #8B4513;
+  --accent-light: #F0E8DF;
+  --done: #2E7D45;
+  --done-bg: #EAF5EE;
+  --phase1: #8B4513;
+  --phase2: #B8860B;
+  --phase3: #2B5C8A;
+  --phase4: #5B3A8C;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1A1611;
+    --surface: #252118;
+    --border: #3A3428;
+    --fg: #F0EDE8;
+    --fg-muted: #9A9088;
+    --accent: #C4784A;
+    --accent-light: #2E2018;
+    --done: #4CAF72;
+    --done-bg: #1A3025;
+    --phase1: #C4784A;
+    --phase2: #D4A820;
+    --phase3: #4A8EC4;
+    --phase4: #9070CC;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #1A1611;
+  --surface: #252118;
+  --border: #3A3428;
+  --fg: #F0EDE8;
+  --fg-muted: #9A9088;
+  --accent: #C4784A;
+  --accent-light: #2E2018;
+  --done: #4CAF72;
+  --done-bg: #1A3025;
+  --phase1: #C4784A;
+  --phase2: #D4A820;
+  --phase3: #4A8EC4;
+  --phase4: #9070CC;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding-block: 48px 40px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 48px;
+}
+
+.brand-line {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 900;
+  margin: 0 0 12px;
+  text-wrap: balance;
+  line-height: 1.1;
+}
+
+.header .subtitle {
+  color: var(--fg-muted);
+  font-size: 14px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.progress-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  background: var(--done-bg);
+  color: var(--done);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 100px;
+  border: 1px solid color-mix(in srgb, var(--done) 30%, transparent);
+}
+
+.progress-summary i { font-size: 12px; }
+
+/* Timeline container */
+.timeline {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Phase block */
+.phase {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 0 32px;
+}
+
+@media (max-width: 600px) {
+  .phase {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.phase-label { padding-top: 4px; }
+
+.phase-number {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--phase-color, var(--accent));
+  margin-bottom: 4px;
+}
+
+.phase-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--fg);
+  margin: 0 0 6px;
+  text-wrap: balance;
+}
+
+.phase-timeframe {
+  font-size: 12px;
+  color: var(--fg-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.phase-timeframe i { font-size: 10px; opacity: 0.6; }
+
+.phase-progress {
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--fg-muted);
+}
+
+.phase-progress-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.phase-progress-fill {
+  height: 100%;
+  background: var(--phase-color, var(--accent));
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+/* Items column */
+.phase-items {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.phase-bar {
+  height: 3px;
+  background: var(--phase-color, var(--accent));
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+/* Individual item */
+.item {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: background 0.15s;
+  position: relative;
+  user-select: none;
+}
+
+.item:hover { background: color-mix(in srgb, var(--accent-light) 60%, transparent); }
+.item.done:hover { background: color-mix(in srgb, var(--done-bg) 60%, transparent); }
+
+.item.last-row { border-bottom: none; }
+
+.items-grid .item { border-right: none; }
+.items-grid .item + .item { border-left: 1px solid var(--border); }
+
+@media (max-width: 500px) {
+  .items-grid .item + .item { border-left: none; }
+}
+
+/* Icon chip */
+.item-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-light);
+  transition: background 0.2s;
+  color: var(--accent);
+  font-size: 13px;
+}
+
+.item.done .item-icon {
+  background: var(--done-bg);
+  color: var(--done);
+}
+
+.item-body { flex: 1; min-width: 0; }
+
+.item-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--fg);
+  line-height: 1.3;
+  transition: color 0.2s;
+}
+
+.item.done .item-name { color: var(--done); }
+
+.item-desc {
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+.done-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--done);
+  background: var(--done-bg);
+  border-radius: 4px;
+  padding: 2px 7px;
+  margin-top: 5px;
+}
+
+.done-badge i { font-size: 9px; }
+
+.pending-badge {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  background: var(--bg);
+  border-radius: 4px;
+  padding: 2px 7px;
+  margin-top: 5px;
+  border: 1px solid var(--border);
+}
+
+.pending-badge i { font-size: 9px; }
+
+/* Toggle hint */
+.toggle-hint {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 10px;
+  color: var(--fg-muted);
+  opacity: 0;
+  transition: opacity 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.toggle-hint i { font-size: 9px; }
+.item:hover .toggle-hint { opacity: 1; }
+
+/* Footer */
+.footer-note {
+  max-width: 900px;
+  margin: 40px auto 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--fg-muted);
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.footer-note strong { color: var(--fg); }
+</style>
+
+<div class="header">
+  <p class="brand-line">Mikesons and Sons Interiors · Durban, SA</p>
+  <h1>Business Growth Roadmap</h1>
+  <p class="subtitle">A four-phase plan from stabilising operations to opening a furniture showroom.</p>
+  <div class="progress-summary" id="global-progress">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="progress-text">Loading…</span>
+  </div>
+</div>
+
+<div class="timeline" id="timeline">
+
+  <!-- PHASE 1 -->
+  <div class="phase" style="--phase-color: var(--phase1)" data-phase="1">
+    <div class="phase-label">
+      <div class="phase-number">Phase 1</div>
+      <h2 class="phase-title">Stabilise</h2>
+      <div class="phase-timeframe"><i class="fa-regular fa-clock"></i> Now – 6 months</div>
+      <div class="phase-progress">
+        <span class="phase-count" id="p1-count"></span>
+        <div class="phase-progress-bar"><div class="phase-progress-fill" id="p1-fill"></div></div>
+      </div>
+    </div>
+    <div class="phase-items">
+      <div class="phase-bar"></div>
+      <div class="items-grid" id="grid-1">
+
+        <div class="item done" data-id="p1-cipc">
+          <div class="item-icon"><i class="fa-solid fa-building"></i></div>
+          <div class="item-body">
+            <div class="item-name">CIPC Registration</div>
+            <div class="item-desc">Business legally registered in South Africa.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item done" data-id="p1-bank">
+          <div class="item-icon"><i class="fa-solid fa-landmark"></i></div>
+          <div class="item-body">
+            <div class="item-name">Business Bank Account</div>
+            <div class="item-desc">Dedicated business account opened and active.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p1-website">
+          <div class="item-icon"><i class="fa-solid fa-globe"></i></div>
+          <div class="item-body">
+            <div class="item-name">Professional Website</div>
+            <div class="item-desc">mikesoninteriors.co.za live on Vercel with product gallery.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p1-tracking">
+          <div class="item-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+          <div class="item-body">
+            <div class="item-name">Job Tracking System</div>
+            <div class="item-desc">Log every client, quote, and completed job consistently.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p1-portfolio">
+          <div class="item-icon"><i class="fa-solid fa-camera"></i></div>
+          <div class="item-body">
+            <div class="item-name">Portfolio Building</div>
+            <div class="item-desc">Photograph every finished job; build a strong visual portfolio.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p1-reviews">
+          <div class="item-icon"><i class="fa-solid fa-star"></i></div>
+          <div class="item-body">
+            <div class="item-name">Google Business Reviews</div>
+            <div class="item-desc">Ask each satisfied client for a Google review; target 20+.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p1-jobs">
+          <div class="item-icon"><i class="fa-solid fa-chart-line"></i></div>
+          <div class="item-body">
+            <div class="item-name">Target 5–10 Jobs/Month</div>
+            <div class="item-desc">Establish a consistent flow of work and track revenue monthly.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase" style="--phase-color: var(--phase2)" data-phase="2">
+    <div class="phase-label">
+      <div class="phase-number">Phase 2</div>
+      <h2 class="phase-title">Skills &amp; Funding</h2>
+      <div class="phase-timeframe"><i class="fa-regular fa-clock"></i> 6 – 12 months</div>
+      <div class="phase-progress">
+        <span class="phase-count" id="p2-count"></span>
+        <div class="phase-progress-bar"><div class="phase-progress-fill" id="p2-fill"></div></div>
+      </div>
+    </div>
+    <div class="phase-items">
+      <div class="phase-bar"></div>
+      <div class="items-grid" id="grid-2">
+
+        <div class="item" data-id="p2-autocad">
+          <div class="item-icon"><i class="fa-solid fa-pen-ruler"></i></div>
+          <div class="item-body">
+            <div class="item-name">AutoCAD Certificate</div>
+            <div class="item-desc">Udemy course — design technical furniture plans professionally.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p2-sketchup">
+          <div class="item-icon"><i class="fa-solid fa-cube"></i></div>
+          <div class="item-body">
+            <div class="item-name">SketchUp Certificate</div>
+            <div class="item-desc">Udemy course — 3D visualisations to present to clients.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p2-biz">
+          <div class="item-icon"><i class="fa-solid fa-briefcase"></i></div>
+          <div class="item-body">
+            <div class="item-name">Business Management Cert</div>
+            <div class="item-desc">Udemy course — quoting, costing, and running a small business.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p2-nyda">
+          <div class="item-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+          <div class="item-body">
+            <div class="item-name">NYDA Application</div>
+            <div class="item-desc">National Youth Development Agency funding for youth-owned businesses.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p2-seda">
+          <div class="item-icon"><i class="fa-solid fa-university"></i></div>
+          <div class="item-body">
+            <div class="item-name">SEDA Support</div>
+            <div class="item-desc">Small Enterprise Development Agency — mentorship and business grants.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p2-nef">
+          <div class="item-icon"><i class="fa-solid fa-coins"></i></div>
+          <div class="item-body">
+            <div class="item-name">NEF Funding</div>
+            <div class="item-desc">National Empowerment Fund — equity finance for black-owned businesses.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p2-csd">
+          <div class="item-icon"><i class="fa-solid fa-file-contract"></i></div>
+          <div class="item-body">
+            <div class="item-name">Government Supplier Reg</div>
+            <div class="item-desc">CSD registration to supply government departments and tenders.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase" style="--phase-color: var(--phase3)" data-phase="3">
+    <div class="phase-label">
+      <div class="phase-number">Phase 3</div>
+      <h2 class="phase-title">Supply Stores</h2>
+      <div class="phase-timeframe"><i class="fa-regular fa-clock"></i> 12 – 24 months</div>
+      <div class="phase-progress">
+        <span class="phase-count" id="p3-count"></span>
+        <div class="phase-progress-bar"><div class="phase-progress-fill" id="p3-fill"></div></div>
+      </div>
+    </div>
+    <div class="phase-items">
+      <div class="phase-bar"></div>
+      <div class="items-grid" id="grid-3">
+
+        <div class="item" data-id="p3-russells">
+          <div class="item-icon"><i class="fa-solid fa-store"></i></div>
+          <div class="item-body">
+            <div class="item-name">Approach Russells &amp; Rochester</div>
+            <div class="item-desc">Pitch standardised furniture lines to established retail chains.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p3-indie">
+          <div class="item-icon"><i class="fa-solid fa-shop"></i></div>
+          <div class="item-body">
+            <div class="item-name">Independent Stores</div>
+            <div class="item-desc">Partner with local Durban furniture and home décor retailers.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p3-consignment">
+          <div class="item-icon"><i class="fa-solid fa-handshake"></i></div>
+          <div class="item-body">
+            <div class="item-name">Consignment Deals</div>
+            <div class="item-desc">Stock in stores at no upfront cost — pay only on sale.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p3-products">
+          <div class="item-icon"><i class="fa-solid fa-box-open"></i></div>
+          <div class="item-body">
+            <div class="item-name">2–3 Standard Products</div>
+            <div class="item-desc">Develop repeatable product lines — bookshelves, wardrobes, TV stands.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase" style="--phase-color: var(--phase4)" data-phase="4">
+    <div class="phase-label">
+      <div class="phase-number">Phase 4</div>
+      <h2 class="phase-title">Own Showroom</h2>
+      <div class="phase-timeframe"><i class="fa-regular fa-clock"></i> 24 – 48 months</div>
+      <div class="phase-progress">
+        <span class="phase-count" id="p4-count"></span>
+        <div class="phase-progress-bar"><div class="phase-progress-fill" id="p4-fill"></div></div>
+      </div>
+    </div>
+    <div class="phase-items">
+      <div class="phase-bar"></div>
+      <div class="items-grid" id="grid-4">
+
+        <div class="item" data-id="p4-showroom">
+          <div class="item-icon"><i class="fa-solid fa-building-columns"></i></div>
+          <div class="item-body">
+            <div class="item-name">Showroom in Berea</div>
+            <div class="item-desc">Physical space in Durban to display and sell furniture directly.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p4-mixed">
+          <div class="item-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+          <div class="item-body">
+            <div class="item-name">Custom + Ready-Made</div>
+            <div class="item-desc">Mix bespoke commissions with ready-made stock for faster sales.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p4-hire">
+          <div class="item-icon"><i class="fa-solid fa-helmet-safety"></i></div>
+          <div class="item-body">
+            <div class="item-name">Hire Carpenters</div>
+            <div class="item-desc">Build a skilled team to increase production capacity.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+        <div class="item" data-id="p4-delivery">
+          <div class="item-icon"><i class="fa-solid fa-truck"></i></div>
+          <div class="item-body">
+            <div class="item-name">Delivery &amp; Installation</div>
+            <div class="item-desc">Offer full delivery and install service across KwaZulu-Natal.</div>
+            <span class="done-badge"><i class="fa-solid fa-check"></i> Completed</span>
+            <span class="pending-badge"><i class="fa-regular fa-circle"></i> Pending</span>
+          </div>
+          <span class="toggle-hint"><i class="fa-solid fa-arrow-right-arrow-left"></i> toggle</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="footer-note">
+  <strong>Mikesons and Sons Interiors</strong> · Custom fitted furniture, Durban
+</p>
+
+<script>
+  const DEFAULTS = {
+    'p1-cipc': true, 'p1-bank': true,
+    'p1-website': false, 'p1-tracking': false, 'p1-portfolio': false,
+    'p1-reviews': false, 'p1-jobs': false,
+    'p2-autocad': false, 'p2-sketchup': false, 'p2-biz': false,
+    'p2-nyda': false, 'p2-seda': false, 'p2-nef': false, 'p2-csd': false,
+    'p3-russells': false, 'p3-indie': false, 'p3-consignment': false, 'p3-products': false,
+    'p4-showroom': false, 'p4-mixed': false, 'p4-hire': false, 'p4-delivery': false,
+  };
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem('mikesons-roadmap-v1');
+      if (raw) return { ...DEFAULTS, ...JSON.parse(raw) };
+    } catch(e) {}
+    return { ...DEFAULTS };
+  }
+
+  function saveState(state) {
+    try { localStorage.setItem('mikesons-roadmap-v1', JSON.stringify(state)); } catch(e) {}
+  }
+
+  let state = loadState();
+
+  const PHASES = [
+    { id: 1, items: ['p1-cipc','p1-bank','p1-website','p1-tracking','p1-portfolio','p1-reviews','p1-jobs'] },
+    { id: 2, items: ['p2-autocad','p2-sketchup','p2-biz','p2-nyda','p2-seda','p2-nef','p2-csd'] },
+    { id: 3, items: ['p3-russells','p3-indie','p3-consignment','p3-products'] },
+    { id: 4, items: ['p4-showroom','p4-mixed','p4-hire','p4-delivery'] },
+  ];
+
+  function applyState() {
+    document.querySelectorAll('.item[data-id]').forEach(el => {
+      const done = !!state[el.dataset.id];
+      el.classList.toggle('done', done);
+      el.querySelector('.done-badge').style.display = done ? 'inline-flex' : 'none';
+      el.querySelector('.pending-badge').style.display = done ? 'none' : 'inline-flex';
+    });
+
+    let totalDone = 0, totalAll = 0;
+    PHASES.forEach(phase => {
+      const donePh = phase.items.filter(id => state[id]).length;
+      const allPh = phase.items.length;
+      totalDone += donePh;
+      totalAll += allPh;
+      const pct = allPh ? Math.round(donePh / allPh * 100) : 0;
+      const countEl = document.getElementById(`p${phase.id}-count`);
+      const fillEl  = document.getElementById(`p${phase.id}-fill`);
+      if (countEl) countEl.textContent = `${donePh} of ${allPh} complete`;
+      if (fillEl)  fillEl.style.width  = pct + '%';
+    });
+
+    const t = document.getElementById('progress-text');
+    if (t) t.textContent = `${totalDone} of ${totalAll} milestones completed`;
+  }
+
+  document.querySelectorAll('.item[data-id]').forEach(el => {
+    el.addEventListener('click', () => {
+      const id = el.dataset.id;
+      state[id] = !state[id];
+      saveState(state);
+      applyState();
+    });
+  });
+
+  applyState();
+</script>
